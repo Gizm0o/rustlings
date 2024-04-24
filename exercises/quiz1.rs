@@ -13,10 +13,16 @@
 //
 // No hints this time ;)
 
-// I AM NOT DONE
 
 // Put your function here!
-// fn calculate_price_of_apples {
+fn calculate_price_of_apples(quantity: i32) -> i32 {
+    if quantity > 40 {
+        quantity
+    } else {
+        quantity * 2
+    }
+}
+
 
 // Don't modify this function!
 #[test]
@@ -31,3 +37,8 @@ fn verify_test() {
     assert_eq!(41, price3);
     assert_eq!(65, price4);
 }
+
+// Writeup
+// The function calculate_price_of_apples takes in a quantity of apples and returns the price of the apples based on the quantity, 
+// if the quantity is greater than 40, the price is the quantity, otherwise the price is the quantity multiplied by 2.
+// The function receives a integer as input and returns an integer as output.
