@@ -5,7 +5,12 @@
 
 // I AM NOT DONE
 
-const NUMBER = 3;
+const NUMBER :i32 = 3;
 fn main() {
     println!("Number {}", NUMBER);
 }
+
+
+// Writeup
+// The variable is declared as a constant and constant must be declared with a type annotation because they are defined at compile time.
+// Constants are always immutabme, their values cannot be changed
