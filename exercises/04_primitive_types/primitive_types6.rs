@@ -6,14 +6,17 @@
 // Execute `rustlings hint primitive_types6` or use the `hint` watch subcommand
 // for a hint.
 
-// I AM NOT DONE
 
 #[test]
 fn indexing_tuple() {
     let numbers = (1, 2, 3);
     // Replace below ??? with the tuple indexing syntax.
-    let second = ???;
+    let second = numbers.1;
 
     assert_eq!(2, second,
         "This is not the 2nd number in the tuple!")
 }
+
+// Writeup
+// Here we want second to be equal to 2, to do this we acces the second element of the tuple with the syntax numbers.1
+// because indexing in rust starts at 0.
