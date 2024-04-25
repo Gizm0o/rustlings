@@ -9,7 +9,6 @@
 // Execute `rustlings hint errors6` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::num::ParseIntError;
 
@@ -26,14 +25,21 @@ impl ParsePosNonzeroError {
     }
     // TODO: add another error conversion function here.
     // fn from_parseint...
+    fn from_parseint(err: ParseIntError) -> ParsePosNonzeroError {
+        ParsePosNonzeroError::ParseInt(err)
+    }
 }
 
 fn parse_pos_nonzero(s: &str) -> Result<PositiveNonzeroInteger, ParsePosNonzeroError> {
     // TODO: change this to return an appropriate error instead of panicking
     // when `parse()` returns an error.
-    let x: i64 = s.parse().unwrap();
+    let x: i64 = match s.parse() {
+        Ok(parsed) => parsed,
+        Err(err) => return Err(ParsePosNonzeroError::from_parseint(err)),
+    };
+
     PositiveNonzeroInteger::new(x).map_err(ParsePosNonzeroError::from_creation)
-}
+} 
 
 // Don't change anything below this line.
 
@@ -92,3 +98,17 @@ mod test {
         assert_eq!(parse_pos_nonzero("42"), Ok(x.unwrap()));
     }
 }
+
+
+// Writeup
+
+// fn parseint:
+// This function converts a ParseIntError into a ParsePosNonzeroError.
+// It does this by pattern matching on the ParseIntError and returning a ParsePosNonzeroError::ParseInt with the ParseIntError as an argument.
+
+// parse_pos_nonzero:
+// This function takes a string and returns a Result<PositiveNonzeroInteger, ParsePosNonzeroError>.
+// It does this by parsing the string into an i64 and then converting it into a PositiveNonzeroInteger.
+// If the string can't be parsed into an i64, it returns a ParsePosNonzeroError::ParseInt with the ParseIntError as an argument.
+// If the i64 can't be converted into a PositiveNonzeroInteger, it returns a ParsePosNonzeroError::Creation with the CreationError 
+// as an argument.

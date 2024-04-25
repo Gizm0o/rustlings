@@ -20,8 +20,6 @@
 //
 // No hints this time!
 
-// I AM NOT DONE
-
 pub enum Command {
     Uppercase,
     Trim,
@@ -32,11 +30,18 @@ mod my_module {
     use super::Command;
 
     // TODO: Complete the function signature!
-    pub fn transformer(input: ???) -> ??? {
+    pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
         // TODO: Complete the output declaration!
-        let mut output: ??? = vec![];
+
+        let mut output: Vec<String> = vec![];
+
         for (string, command) in input.iter() {
             // TODO: Complete the function body. You can do it!
+            match command {
+                Command::Uppercase => output.push(string.to_uppercase()),
+                Command::Trim => output.push(string.trim().to_string()),
+                Command::Append(n) => output.push(string.clone() + "bar".repeat(*n).as_str()),
+            }
         }
         output
     }
@@ -45,7 +50,7 @@ mod my_module {
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
-    use ???;
+    use super::my_module::transformer;
     use super::Command;
 
     #[test]
@@ -62,3 +67,13 @@ mod tests {
         assert_eq!(output[3], "barbarbarbarbarbar");
     }
 }
+
+// Writeup
+// we implement the transformer function in the my_module module. 
+// The transformer function takes a vector of tuples containing a string and a command. 
+// The function then processes the command and applies the appropriate transformation to the string. 
+// The function returns a vector of strings with the transformations applied.
+// The input is a vector of tuples containing a string and a command.
+// The output is a vector of strings.
+//
+// We then just added the import of the transformer function in the tests module.
