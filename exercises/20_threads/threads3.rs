@@ -3,8 +3,6 @@
 // Execute `rustlings hint threads3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 use std::sync::mpsc;
 use std::sync::Arc;
 use std::thread;
@@ -27,18 +25,23 @@ impl Queue {
 }
 
 fn send_tx(q: Queue, tx: mpsc::Sender<u32>) -> () {
+    let qc = Arc::new(q);
+    let qc1 = Arc::clone(&qc);
+    let qc2 = Arc::clone(&qc);
+    let tx1 = tx.clone();
+
     thread::spawn(move || {
-        for val in q.first_half {
+        for val in &qc1.first_half {
             println!("sending {:?}", val);
-            tx.send(val).unwrap();
+            tx1.send(*val).unwrap();
             thread::sleep(Duration::from_secs(1));
         }
     });
 
     thread::spawn(move || {
-        for val in q.second_half {
+        for val in &qc2.second_half {
             println!("sending {:?}", val);
-            tx.send(val).unwrap();
+            tx.send(*val).unwrap();
             thread::sleep(Duration::from_secs(1));
         }
     });
@@ -61,3 +64,9 @@ fn main() {
     println!("total numbers received: {}", total_received);
     assert_eq!(total_received, queue_length)
 }
+
+// Writeup 
+// To fix the problems, we need to make sure that the two threads are not sharing the same Queue object.
+// We can do this by cloning the Queue object before passing it to the send_tx function.
+// We also need to make sure that the two threads are not sharing the same Sender object.
+// We can do this by cloning the Sender object before passing it to the send_tx function.

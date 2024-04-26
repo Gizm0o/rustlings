@@ -11,7 +11,6 @@
 // Execute `rustlings hint iterators5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::collections::HashMap;
 
@@ -33,9 +32,9 @@ fn count_for(map: &HashMap<String, Progress>, value: Progress) -> usize {
 }
 
 fn count_iterator(map: &HashMap<String, Progress>, value: Progress) -> usize {
-    // map is a hashmap with String keys and Progress values.
-    // map = { "variables1": Complete, "from_str": None, ... }
-    todo!();
+    // Use filter to keep only the Progress values that match the given value,
+    // then count how many items are left.
+    map.values().filter(|&progress| *progress == value).count()
 }
 
 fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
@@ -51,10 +50,13 @@ fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progres
 }
 
 fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
-    // collection is a slice of hashmaps.
-    // collection = [{ "variables1": Complete, "from_str": None, ... },
-    //     { "variables2": Complete, ... }, ... ]
-    todo!();
+    // Use flat_map to flatten the collection of hashmaps into an iterator of Progress values,
+    // then filter and count as before.
+    collection
+        .iter()
+        .flat_map(|map| map.values())
+        .filter(|&progress| *progress == value)
+        .count()
 }
 
 #[cfg(test)]
@@ -154,3 +156,17 @@ mod tests {
         vec![map, other]
     }
 }
+
+
+// Writeup
+// The `count_for` function uses a for loop to iterate over the values of the hashmap and count the number of values 
+// that match the given value. We can replace this with an iterator chain that filters the values and counts them.
+// To do this, we use the `filter` method to keep only the values that match the given value, and then use the `count` method 
+// to count the number of items left.
+//
+// The `count_collection_for` function uses a nested for loop to iterate over the collection of hashmaps and count the number
+// of values that match the given value. We can replace this with an iterator chain that flattens the collection of hashmaps
+// into an iterator of Progress values, filters the values, and counts them.
+// To do this, we use the `flat_map` method to flatten the collection of hashmaps into an iterator of Progress values,
+// then use the `filter` method to keep only the values that match the given value, and finally use the `count` method to count the 
+// number of items left.

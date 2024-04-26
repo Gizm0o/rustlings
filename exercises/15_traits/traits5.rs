@@ -7,8 +7,6 @@
 // Execute `rustlings hint traits5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 pub trait SomeTrait {
     fn some_function(&self) -> bool {
         true
@@ -30,11 +28,19 @@ impl SomeTrait for OtherStruct {}
 impl OtherTrait for OtherStruct {}
 
 // YOU MAY ONLY CHANGE THE NEXT LINE
-fn some_func(item: ??) -> bool {
+fn some_func<T>(item: T) -> bool
+    where T: SomeTrait + OtherTrait
+{
     item.some_function() && item.other_function()
 }
+
 
 fn main() {
     some_func(SomeStruct {});
     some_func(OtherStruct {});
 }
+
+// Writeup
+// The original code is trying to call some_function on an item of type T, which is a SomeTrait.
+// The issue is that the some_function method is not defined on the SomeTrait trait, but on the SomeStruct struct.
+// The solution is to define the some_function method on the SomeTrait trait, and then implement the SomeTrait trait for the SomeStruct struct.

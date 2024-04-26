@@ -16,20 +16,29 @@
 //
 // Execute `rustlings hint quiz3` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
 
 pub struct ReportCard {
-    pub grade: f32,
+    pub grade: Grade, // Change the type to Grade enum
     pub student_name: String,
     pub student_age: u8,
 }
 
+// Define a new enum Grade to represent both numerical and alphabetical grades
+#[derive(Debug, PartialEq)]
+pub enum Grade {
+    Numeric(f32),
+    Alphabetic(String),
+}
+
 impl ReportCard {
     pub fn print(&self) -> String {
-        format!("{} ({}) - achieved a grade of {}",
-            &self.student_name, &self.student_age, &self.grade)
+        match &self.grade {
+            Grade::Numeric(n) => format!("{} ({}) - achieved a grade of {}", &self.student_name, &self.student_age, n),
+            Grade::Alphabetic(g) => format!("{} ({}) - achieved a grade of {}", &self.student_name, &self.student_age, g),
+        }
     }
 }
+
 
 #[cfg(test)]
 mod tests {
@@ -38,7 +47,7 @@ mod tests {
     #[test]
     fn generate_numeric_report_card() {
         let report_card = ReportCard {
-            grade: 2.1,
+            grade: Grade::Numeric(2.1),
             student_name: "Tom Wriggle".to_string(),
             student_age: 12,
         };
@@ -50,15 +59,25 @@ mod tests {
 
     #[test]
     fn generate_alphabetic_report_card() {
-        // TODO: Make sure to change the grade here after you finish the exercise.
         let report_card = ReportCard {
-            grade: 2.1,
-            student_name: "Gary Plotter".to_string(),
-            student_age: 11,
-        };
-        assert_eq!(
-            report_card.print(),
-            "Gary Plotter (11) - achieved a grade of A+"
-        );
-    }
+        grade: Grade::Alphabetic("A+".to_string()), // Change the grade to Alphabetic("A+")
+        student_name: "Gary Plotter".to_string(),
+        student_age: 11,
+    };
+    assert_eq!(
+        report_card.print(),
+        "Gary Plotter (11) - achieved a grade of A+"
+    );
 }
+}
+
+// Writeup
+// The first thing we need to do is to define a new enum Grade that can represent both numerical and alphabetical grades. 
+// We can do this by defining a new enum Grade with two variants: Numeric(f32) and Alphabetic(String). 
+// We then need to change the type of the grade field in the ReportCard struct to be of type Grade enum.
+//
+// In the print method, we need to pattern match on the grade field to determine whether it is a Numeric or Alphabetic grade.
+// We then use the format! macro to create a string that includes the student's name, age, and grade.
+//
+// In the second test, we change the grade to Grade::Alphabetic("A+") to show that our changes allow alphabetical grades.
+// We then assert that the output of the print method is as expected.
